@@ -1,0 +1,53 @@
+---
+
+- name: Install roles
+  vars:
+    gogs_binary_url: https://github.com/gogs/gogs/releases/download/v0.12.3/gogs_0.12.3_linux_amd64.tar.gz
+    java_packages:
+      - openjdk-11-jdk
+    php_version: 7.4
+    php_default_version_debian: "{{ php_version }}"
+    nginx_client_max_body_size: 32M
+    php_post_max_size: 32M
+    php_memory_limit: -1
+    php_upload_max_filesize: 32M
+    php_max_input_vars: 3000
+    php_webserver_daemon: nginx
+    php_enable_php_fpm: true
+    php_packages_extra:
+      - php{{ php_default_version_debian }}-zip
+      - php{{ php_default_version_debian }}-ldap
+    php_opcache_validate_timestamps: 0
+    nginx_worker_connections: 1024
+    mysql_root_password: root
+    mysql_sql_mode: STRICT_ALL_TABLES
+    mysql_databases:
+      - name: gogs
+        encoding: utf8mb4
+        collation: utf8mb4_general_ci
+    pip_install_packages:
+      - name: PyMySQL
+
+  hosts: all
+  pre_tasks:
+    - name: Remove ca-certificates
+      apt: 
+        name: ca-certificates
+        state: absent
+    - name: Ensure reinstall ca-certificates
+      apt: 
+        name: ca-certificates
+        state: present
+        update_cache: yes
+  roles:
+    - role: geerlingguy.pip
+    - role: geerlingguy.nginx
+    - role: geerlingguy.mysql
+    - role: geerlingguy.java
+    - role: geerlingguy.php-versions
+    - role: geerlingguy.php
+    - role: geerlingguy.php-mysql
+    - role: geerlingguy.gogs
+    - role: geerlingguy.jenkins
+      vars:
+        jenkins_prefer_lts: true

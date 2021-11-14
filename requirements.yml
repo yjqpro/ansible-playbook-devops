@@ -1,0 +1,17 @@
+- src: geerlingguy.gogs
+  
+- src: geerlingguy.java
+
+- src: geerlingguy.jenkins
+
+- src: geerlingguy.pip
+
+- src: geerlingguy.nginx
+
+- src: geerlingguy.mysql
+
+- src: geerlingguy.php
+
+- src: geerlingguy.php-mysql
+
+- src: geerlingguy.php-versions
