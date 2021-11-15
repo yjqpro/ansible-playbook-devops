@@ -27,6 +27,10 @@
         collation: utf8mb4_general_ci
     pip_install_packages:
       - name: PyMySQL
+    mysql_users:
+      - name: gogs
+        password: 12qwaszx
+        priv: "gogs.*:ALL"
 
   hosts: all
   pre_tasks:
