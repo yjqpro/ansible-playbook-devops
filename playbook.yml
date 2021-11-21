@@ -3,6 +3,7 @@
 - name: Install roles
   vars:
     gogs_binary_url: https://github.com/gogs/gogs/releases/download/v0.12.3/gogs_0.12.3_linux_amd64.tar.gz
+    gogs_use_mysql: true
     java_packages:
       - openjdk-11-jdk
     php_version: 7.4
@@ -21,16 +22,27 @@
     nginx_worker_connections: 1024
     mysql_root_password: root
     mysql_sql_mode: STRICT_ALL_TABLES
-    mysql_databases:
-      - name: gogs
-        encoding: utf8mb4
-        collation: utf8mb4_general_ci
     pip_install_packages:
       - name: PyMySQL
-    mysql_users:
-      - name: gogs
-        password: 12qwaszx
-        priv: "gogs.*:ALL"
+    jenkins_admin_password: 12qwaszx
+
+    jenkins_plugins:
+      - name: bouncycastle-api
+      - name: build-token-root
+      - name: cmakebuilder
+      - name: command-launcher
+      - name: jaxb
+      # - name: ldap
+      - name: locale
+      - name: jdk-tool
+      - name: phabricator-plugin
+      - name: workflow-aggregator
+      - name: simple-theme-plugin
+      - name: ssh-slaves
+      - name: gogs-webhook
+      # - name: git
+    jenkins_url: jenkins.dev.org
+    gogs_url: gogs.dev.org
 
   hosts: all
   pre_tasks:
@@ -45,7 +57,7 @@
         update_cache: yes
   roles:
     - role: geerlingguy.pip
-    - role: geerlingguy.nginx
+    - role: nginxinc.nginx
     - role: geerlingguy.mysql
     - role: geerlingguy.java
     - role: geerlingguy.php-versions
@@ -55,3 +67,17 @@
     - role: geerlingguy.jenkins
       vars:
         jenkins_prefer_lts: true
+  tasks:
+    - name: Configuration nginx conf for jenkins
+      template:
+        src: "{{ item.src}}"
+        dest: "{{ item.dest }}"
+      with_items:
+        - src: templates/jenkins.conf.j2
+          dest: /etc/nginx/conf.d/{{ jenkins_url }}.conf
+        - src: templates/gogs.conf.j2
+          dest: /etc/nginx/conf.d/{{ gogs_url }}.conf
+      notify: restart nginx 
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=restarted

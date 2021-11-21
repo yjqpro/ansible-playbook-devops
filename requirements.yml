@@ -6,7 +6,9 @@
 
 - src: geerlingguy.pip
 
-- src: geerlingguy.nginx
+# - src: geerlingguy.nginx
+
+- src: nginxinc.nginx
 
 - src: geerlingguy.mysql
 
