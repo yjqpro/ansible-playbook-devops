@@ -1,0 +1,113 @@
+gogs_binary_url: https://github.com/gogs/gogs/releases/download/v0.12.3/gogs_0.12.3_linux_amd64.tar.gz
+gogs_use_mysql: true
+gogs_url: gogs.dev.org
+
+java_packages:
+  - openjdk-11-jdk
+php_version: 7.4
+php_default_version_debian: '{{ php_version }}'
+nginx_client_max_body_size: 32M
+php_post_max_size: 32M
+php_memory_limit: -1
+php_upload_max_filesize: 32M
+php_max_input_vars: 3000
+php_webserver_daemon: nginx
+php_enable_php_fpm: true
+php_packages_extra:
+  - php{{ php_default_version_debian }}-zip
+  - php{{ php_default_version_debian }}-ldap
+php_opcache_validate_timestamps: 0
+nginx_worker_connections: 1024
+mysql_root_password: root
+mysql_sql_mode: STRICT_ALL_TABLES
+pip_install_packages:
+  - name: PyMySQL
+# Jenkins vars
+jenkins_admin_password: 12qwaszx
+
+jenkins_version: '2.319.3'
+jenkins_pkg_url: 'https://mirrors.tuna.tsinghua.edu.cn/jenkins/debian-stable'
+# jenkins_updates_url: 'https://mirrors.tuna.tsinghua.edu.cn/jenkins'
+
+jenkins_plugins:
+  - name: display-url-api
+    version: '2.3.5'
+  - name: workflow-step-api
+    version: '622.vb_8e7c15b_c95a_'
+  - name: jdk-tool
+    version: '1.5'
+  - name: command-launcher
+    version: '1.6'
+  - name: credentials
+    version: '1074.v60e6c29b_b_44b_'
+  - name: structs
+    version: '308.v852b473a2b8c'
+  - name: simple-theme-plugin
+    version: '103.va_161d09c38c7'
+  - name: gogs-webhook
+    version: '1.0.15'
+  - name: workflow-support
+    version: '813.vb_d7c3d2984a_0'
+  - name: caffeine-api
+    version: '2.9.2-29.v717aac953ff3'
+  - name: plain-credentials
+    version: '1.8'
+  - name: trilead-api
+    version: '1.0.13'
+  - name: jsch
+    version: '0.1.55.2'
+  - name: git
+    version: '4.10.3'
+  - name: cmakebuilder
+    version: '4.1.1'
+  - name: workflow-scm-step
+    version: '2.13'
+  - name: workflow-job
+    version: '1145.v7f2433caa07f'
+  - name: scm-api
+    version: '595.vd5a_df5eb_0e39'
+  - name: javax-activation-api
+    version: '1.2.0-2'
+  - name: workflow-api
+    version: '1138.v619fd5201b_2f'
+  - name: ssh-credentials
+    version: '1.19'
+  - name: git-client
+    version: '3.11.0'
+  - name: mailer
+    version: '408.vd726a_1130320'
+  - name: jaxb
+    version: '2.3.0.1'
+  - name: bouncycastle-api
+    version: '2.25'
+  - name: javax-mail-api
+    version: '1.6.2-5'
+  - name: script-security
+    version: '1138.v8e727069a_025'
+  - name: apache-httpcomponents-client-4-api
+    version: '4.5.13-1.0'
+  - name: ldap
+    version: '2.8'
+  - name: credentials-binding
+    version: '1.27.1'
+  - name: sshd
+    version: '3.0.3'
+  - name: ssh-agent
+    version: '1.24.1'
+  - name: ssh
+    version: '2.6.1'
+  - name: ssh-slaves
+    version: '1.33.0'
+  - name: publish-over
+    version: '0.22'
+  - name: publish-over-ssh
+    version: '1.24'
+  - name: ssh-steps
+    version: '2.0.0'
+
+jenkins_url: jenkins.dev.org
+jenkins_prefer_lts: true
+
+# phabricator
+phabricator_hostname: pha.dev.org
+phabricator_alternate_file_domain: phafile.dev.org

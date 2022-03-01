@@ -1,5 +1,5 @@
 - src: geerlingguy.gogs
-  
+
 - src: geerlingguy.java
 
 - src: geerlingguy.jenkins
@@ -17,3 +17,6 @@
 - src: geerlingguy.php-mysql
 
 - src: geerlingguy.php-versions
+
+- name: phabricator
+  src: https://github.com/yjqpro/ansible-role-phabricator.git
