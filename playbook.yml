@@ -1,29 +1,55 @@
 ---
 - name: Install roles
+  become: true
   vars_files:
     - vars.yml
   hosts: all
   pre_tasks:
-    - name: Remove ca-certificates
-      apt:
-        name: ca-certificates
-        state: absent
+    # - name: Remove ca-certificates
+    #   apt:
+    #     name: ca-certificates
+    #     state: absent
+    #   tags:
+    #     - common
     - name: Ensure reinstall ca-certificates
       apt:
         name: ca-certificates
         state: present
         update_cache: yes
+      tags:
+        - common
   roles:
     - role: geerlingguy.pip
+      tags:
+        - common
     - role: nginxinc.nginx
+      tags:
+        - common
     - role: geerlingguy.mysql
+      tags:
+        - gogs
+        - pha
     - role: geerlingguy.java
+      tags:
+        - jenkins
     - role: geerlingguy.php-versions
+      tags:
+        - pha
     - role: geerlingguy.php
+      tags:
+        - pha
     - role: geerlingguy.php-mysql
+      tags:
+        - pha
     - role: geerlingguy.gogs
+      tags:
+        - gogs
     - role: geerlingguy.jenkins
+      tags:
+        - jenkins
     - role: phabricator
+      tags:
+        - pha
   tasks:
     - name: Configuration nginx conf for jenkins
       template:
@@ -35,6 +61,8 @@
         - src: templates/gogs.conf.j2
           dest: /etc/nginx/conf.d/{{ gogs_url }}.conf
       notify: restart nginx
+      tags:
+        - common
   handlers:
     - name: restart nginx
       service: name=nginx state=restarted
